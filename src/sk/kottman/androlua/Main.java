@@ -1,8 +1,6 @@
 package sk.kottman.androlua;
 
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
 
 import org.keplerproject.luajava.JavaFunction;
 import org.keplerproject.luajava.LuaException;
@@ -12,8 +10,6 @@ import org.keplerproject.luajava.LuaStateFactory;
 import android.app.Activity;
 import android.content.res.AssetManager;
 import android.os.Bundle;
-import android.util.*;
-import android.os.Handler;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,8 +21,6 @@ import android.widget.Toast;
 
 public class Main extends Activity implements OnClickListener,
 		OnLongClickListener {
-	private final static int LISTEN_PORT = 3333;
-
 	Button execute;
 	
 	// public so we can play with these from Lua
@@ -36,9 +30,6 @@ public class Main extends Activity implements OnClickListener,
 	
 	final StringBuilder output = new StringBuilder();
 
-	Handler handler;
-	ServerThread serverThread;
-	
 	private static byte[] readAll(InputStream input) throws Exception {
 		ByteArrayOutputStream output = new ByteArrayOutputStream(4096);
 		byte[] buffer = new byte[4096];
@@ -64,8 +55,6 @@ public class Main extends Activity implements OnClickListener,
 
 		status = (TextView) findViewById(R.id.statusText);
 		status.setMovementMethod(ScrollingMovementMethod.getInstance());
-
-		handler = new Handler();
 
 		L = LuaStateFactory.newLuaState();
 		L.openLibs();
@@ -140,87 +129,6 @@ public class Main extends Activity implements OnClickListener,
 		}
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		serverThread = new ServerThread();
-		serverThread.start();
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		serverThread.stopped = true;
-	}
-
-	private class ServerThread extends Thread {
-		public boolean stopped;
-
-		@Override
-		public void run() {
-			stopped = false;
-			try {
-				ServerSocket server = new ServerSocket(LISTEN_PORT);
-				show("Server started on port " + LISTEN_PORT);
-				while (!stopped) {
-					Socket client = server.accept();
-					BufferedReader in = new BufferedReader(
-							new InputStreamReader(client.getInputStream()));
-					final PrintWriter out = new PrintWriter(client.getOutputStream());
-					String line = null;
-					while (!stopped && (line = in.readLine()) != null) {
-						final String s = line.replace('\001', '\n');
-						if (s.startsWith("--mod:")) {
-							int i1 = s.indexOf(':'), i2 = s.indexOf('\n');
-							String mod = s.substring(i1+1,i2); 
-							String file = getFilesDir()+"/"+mod.replace('.', '/')+".lua";
-							FileWriter fw = new FileWriter(file);
-							fw.write(s);
-							fw.close();	
-							// package.loaded[mod] = nil
-							L.getGlobal("package");
-							L.getField(-1, "loaded");
-							L.pushNil();
-							L.setField(-2, mod);
-							out.println("wrote " + file + "\n");
-							out.flush();
-						} else {
-							handler.post(new Runnable() {
-								public void run() {
-									String res = safeEvalLua(s);
-									res = res.replace('\n', '\001');
-									out.println(res);
-									out.flush();
-								}
-							});
-						}
-					}
-				}
-				server.close();
-			} catch (Exception e) {
-				show(e.toString());
-			}
-		}
-
-		private void show(final String s) {
-			handler.post(new Runnable() {
-				public void run() {
-					status.setText(s);
-				}
-			});
-		}
-	}	
-
-	String safeEvalLua(String src) {
-		String res = null;	
-		try {
-			res = evalLua(src);
-		} catch(LuaException e) {
-			res = e.getMessage()+"\n";
-		}
-		return res;		
-	}
-	
 	String evalLua(String src) throws LuaException {
 		L.setTop(0);
 		int ok = L.LloadString(src);
