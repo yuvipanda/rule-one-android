@@ -2,6 +2,8 @@ package sk.kottman.androlua;
 
 import java.io.*;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import org.keplerproject.luajava.JavaFunction;
 import org.keplerproject.luajava.LuaException;
 import org.keplerproject.luajava.LuaState;
@@ -12,17 +14,12 @@ import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Main extends Activity implements OnClickListener,
-		OnLongClickListener {
-	Button execute;
-	
+public class MainAcivity extends Activity implements View.OnLongClickListener {
 	// public so we can play with these from Lua
 	public EditText source;
 	public TextView status;
@@ -45,9 +42,6 @@ public class Main extends Activity implements OnClickListener,
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
-		execute = (Button) findViewById(R.id.executeBtn);
-		execute.setOnClickListener(this);
 
 		source = (EditText) findViewById(R.id.source);
 		source.setOnLongClickListener(this);
@@ -149,20 +143,26 @@ public class Main extends Activity implements OnClickListener,
 		
 	}
 
-	public void onClick(View view) {
-		String src = source.getText().toString();
-		status.setText("");
-		try {
-			String res = evalLua(src);
-			status.append(res);
-			status.append("Finished succesfully");
-		} catch(LuaException e) {			
-			Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();			
-		}
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_execute:
+                String src = source.getText().toString();
+                status.setText("");
+                try {
+                    String res = evalLua(src);
+                    status.append(res);
+                    status.append("Finished succesfully");
+                } catch(LuaException e) {
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+                return true;
+            default:
+                throw new RuntimeException("Unknown menu item clicked");
+        }
+    }
 
-	}
-
-	private String errorReason(int error) {
+    private String errorReason(int error) {
 		switch (error) {
 		case 4:
 			return "Out of memory";
@@ -180,4 +180,10 @@ public class Main extends Activity implements OnClickListener,
 		source.setText("");
 		return true;
 	}
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 }
