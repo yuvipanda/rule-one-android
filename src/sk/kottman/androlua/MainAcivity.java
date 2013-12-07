@@ -13,13 +13,11 @@ import android.app.Activity;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainAcivity extends Activity implements View.OnLongClickListener {
+public class MainAcivity extends Activity {
 	// public so we can play with these from Lua
 	public EditText source;
 	public TextView status;
@@ -44,7 +42,6 @@ public class MainAcivity extends Activity implements View.OnLongClickListener {
 		setContentView(R.layout.main);
 
 		source = (EditText) findViewById(R.id.source);
-		source.setOnLongClickListener(this);
 		source.setText("require 'import'\nprint(Math:sin(2.3))\n");
 
 		status = (TextView) findViewById(R.id.statusText);
@@ -174,11 +171,6 @@ public class MainAcivity extends Activity implements View.OnLongClickListener {
 			return "Yield error";
 		}
 		return "Unknown error " + error;
-	}
-
-	public boolean onLongClick(View view) {
-		source.setText("");
-		return true;
 	}
 
     @Override

@@ -7,7 +7,6 @@
     <EditText android:layout_width="match_parent"
          android:layout_height="fill_parent"
           android:layout_weight="1" android:id="@+id/source"
-          android:longClickable="true"
           android:typeface="monospace"
           android:scrollbars="vertical"
           style="?android:textAppearanceMedium"
