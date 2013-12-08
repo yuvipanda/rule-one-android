@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-    <EditText android:layout_width="match_parent"
-         android:layout_height="fill_parent"
-          android:layout_weight="1" android:id="@+id/source"
-          android:typeface="monospace"
-          android:scrollbars="vertical"
-          style="?android:textAppearanceMedium"
-          android:gravity="top|left">
-    </EditText>
-    <TextView android:text="TextView" 
-        android:layout_width="match_parent"
-        android:id="@+id/statusText"
-        android:layout_height="wrap_content"
-        android:typeface="monospace"
-        android:scrollbars="vertical"
-        style="?android:textAppearanceMedium"
+    <EditText
+            android:id="@+id/source"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="6"
+            android:gravity="top|left"
+            android:typeface="monospace"
+            android:scrollbars="vertical"
+            android:background="@android:color/background_light"
+            android:padding="8dp"
+            style="?android:textAppearanceMedium" />
+    <!-- Easy way to have a simple line -->
+    <View android:layout_width="1dp" android:layout_height="match_parent"
+          android:background="#30333333" />
+    <TextView
+            android:id="@+id/statusText"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:typeface="monospace"
+            android:scrollbars="vertical"
+            style="?android:textAppearanceMediumInverse"
+            android:padding="8dp"
+            android:background="@android:color/background_dark"
         />
 </LinearLayout>
