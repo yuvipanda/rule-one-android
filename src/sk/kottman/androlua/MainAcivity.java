@@ -16,6 +16,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import sk.kottman.androlua.functions.PrintFunction;
 
 public class MainAcivity extends Activity {
 	private EditText source;
@@ -50,31 +51,7 @@ public class MainAcivity extends Activity {
 		L.openLibs();
 
 		try {
-			JavaFunction print = new JavaFunction(L) {
-				@Override
-				public int execute() throws LuaException {
-					for (int i = 2; i <= L.getTop(); i++) {
-						int type = L.type(i);
-						String stype = L.typeName(type);
-						String val = null;
-						if (stype.equals("userdata")) {
-							Object obj = L.toJavaObject(i);
-							if (obj != null)
-								val = obj.toString();
-						} else if (stype.equals("boolean")) {
-							val = L.toBoolean(i) ? "true" : "false";
-						} else {
-							val = L.toString(i);
-						}
-						if (val == null)
-							val = stype;						
-						output.append(val);
-						output.append("\t");
-					}
-					output.append("\n");					
-					return 0;
-				}
-			};
+			JavaFunction print = new PrintFunction(L, output);
 			print.register("print");
 
 			JavaFunction assetLoader = new JavaFunction(L) {
