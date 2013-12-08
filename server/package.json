@@ -1,0 +1,35 @@
+{
+  "name": "AndroLuaServer",
+  "version": "0.1.0",
+  "description": "",
+  "keywords": [
+  ],
+  "homepage": "",
+  "author": {
+    "name": "Yuvi Panda",
+    "email": "yuvipanda@gmail.com"
+  },
+  "dependencies": {
+    "share": "~0.6",
+    "express": "3.x",
+    "redis": "~0.9"
+  },
+  "devDependencies": {
+  },
+  "engine": "node >= 0.10",
+  "main": "lib/index.js",
+  "licenses": [
+    {
+      "type": "BSD",
+      "url": "http://www.freebsd.org/copyright/freebsd-license.html"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/yuvipanda/AndroLua"
+  },
+  "readme": "",
+  "bugs": {
+    "url": "https://github.com/yuvipanda/AndroLua/issues"
+  }
+}

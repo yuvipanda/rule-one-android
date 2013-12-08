@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AndroLua code writing page</title>
+    <link href="static/bootstrap.min.css" rel="stylesheet">
+    <style>
+        #editor {
+            margin: 0;
+            position: absolute;
+            top: 52px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar navbar-default navbar-static-top" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">AndroLua</a>
+    </div>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#">About</a></li>
+            <li><a href="#about">New Program</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+</div>
+<div id="editor"></div>
+
+<script src="/static/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="/channel/bcsocket.js"></script>
+<script src="/share/share.uncompressed.js"></script>
+<script src="/share/ace.js"></script>
+
+<script>
+    var editor = ace.edit("editor");
+
+    sharejs.open('hello', 'text', function (error, doc) {
+        doc.attach_ace(editor);
+    });
+
+    editor.setTheme("ace/theme/twilight");
+    editor.getSession().setMode("ace/mode/lua");
+</script>
+
+</body>
+</html>
