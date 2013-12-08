@@ -4,29 +4,54 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-    <EditText
-            android:id="@+id/source"
+    <FrameLayout
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="6"
-            android:gravity="top|left"
-            android:typeface="monospace"
-            android:scrollbars="vertical"
-            android:background="@android:color/background_light"
             android:padding="8dp"
-            style="?android:textAppearanceMedium" />
+            android:layout_weight="6">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:textAppearanceMedium"
+                android:layout_gravity="right|bottom"
+                android:textColor="#888888"
+                android:text="code"
+                />
+        <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/source"
+                android:gravity="top|left"
+                android:typeface="monospace"
+                android:scrollbars="vertical"
+                android:background="@android:color/transparent"
+                style="?android:textAppearanceMedium" />
+    </FrameLayout>
     <!-- Easy way to have a simple line -->
     <View android:layout_width="1dp" android:layout_height="match_parent"
           android:background="#30333333" />
-    <TextView
-            android:id="@+id/statusText"
+    <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:typeface="monospace"
-            android:scrollbars="vertical"
-            style="?android:textAppearanceMediumInverse"
-            android:padding="8dp"
             android:background="@android:color/background_dark"
-        />
+            android:padding="8dp"
+            >
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?android:textAppearanceMediumInverse"
+                android:layout_gravity="left|bottom"
+                android:textColor="#888888"
+                android:text="output"
+                />
+        <TextView
+                android:id="@+id/statusText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:typeface="monospace"
+                android:scrollbars="vertical"
+                style="?android:textAppearanceMediumInverse"
+                />
+    </FrameLayout>
 </LinearLayout>
