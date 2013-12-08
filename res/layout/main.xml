@@ -7,8 +7,11 @@
     <FrameLayout
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:padding="8dp"
             android:layout_weight="6">
+        <WebView
+                android:id="@+id/codeWebView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -16,16 +19,8 @@
                 android:layout_gravity="right|bottom"
                 android:textColor="#888888"
                 android:text="code"
+                android:padding="8dp"
                 />
-        <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/source"
-                android:gravity="top|left"
-                android:typeface="monospace"
-                android:scrollbars="vertical"
-                android:background="@android:color/transparent"
-                style="?android:textAppearanceMedium" />
     </FrameLayout>
     <!-- Easy way to have a simple line -->
     <View android:layout_width="1dp" android:layout_height="match_parent"

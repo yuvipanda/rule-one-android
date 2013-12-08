@@ -4,6 +4,9 @@ import org.keplerproject.luajava.JavaFunction;
 import org.keplerproject.luajava.LuaException;
 import org.keplerproject.luajava.LuaState;
 
+/**
+ * Function that prints arbitrary Lua objects into the application's output
+ */
 public class PrintFunction extends JavaFunction {
     private final StringBuilder output;
 

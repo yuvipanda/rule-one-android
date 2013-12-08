@@ -4,6 +4,8 @@ import java.io.*;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebView;
+import org.json.JSONObject;
 import org.keplerproject.luajava.JavaFunction;
 import org.keplerproject.luajava.LuaException;
 import org.keplerproject.luajava.LuaState;
@@ -19,10 +21,12 @@ import android.widget.Toast;
 import sk.kottman.androlua.functions.PrintFunction;
 
 public class MainAcivity extends Activity {
-	private EditText source;
+    private WebView codeWebView;
 	private TextView status;
 	private LuaState L;
-	
+
+    private CommunicationBridge bridge;
+
 	final StringBuilder output = new StringBuilder();
 
 	private static byte[] readAll(InputStream input) throws Exception {
@@ -41,8 +45,8 @@ public class MainAcivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		source = (EditText) findViewById(R.id.source);
-		source.setText("require 'import'\nprint(Math:sin(2.3))\n");
+        codeWebView = (WebView) findViewById(R.id.codeWebView);
+        bridge = new CommunicationBridge(codeWebView, "file:///android_asset/index.html");
 
 		status = (TextView) findViewById(R.id.statusText);
 		status.setMovementMethod(ScrollingMovementMethod.getInstance());
@@ -91,6 +95,20 @@ public class MainAcivity extends Activity {
 		} catch (Exception e) {
 			status.setText("Cannot override print");
 		}
+
+        bridge.addListener("onCodeTextResponse", new CommunicationBridge.JSEventListener() {
+            @Override
+            public void onMessage(String messageType, JSONObject messagePayload) {
+                status.setText("");
+                try {
+                    String res = evalLua(messagePayload.optString("code"));
+                    status.append(res);
+                    status.append("Finished succesfully");
+                } catch(LuaException e) {
+                    Toast.makeText(MainAcivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 	}
 
 	String evalLua(String src) throws LuaException {
@@ -117,15 +135,7 @@ public class MainAcivity extends Activity {
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_execute:
-                String src = source.getText().toString();
-                status.setText("");
-                try {
-                    String res = evalLua(src);
-                    status.append(res);
-                    status.append("Finished succesfully");
-                } catch(LuaException e) {
-                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-                }
+                bridge.sendMessage("requestCodeText", new JSONObject());
                 return true;
             default:
                 throw new RuntimeException("Unknown menu item clicked");
