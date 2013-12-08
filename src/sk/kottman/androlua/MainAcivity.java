@@ -18,10 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainAcivity extends Activity {
-	// public so we can play with these from Lua
-	public EditText source;
-	public TextView status;
-	public LuaState L;
+	private EditText source;
+	private TextView status;
+	private LuaState L;
 	
 	final StringBuilder output = new StringBuilder();
 
@@ -51,9 +50,6 @@ public class MainAcivity extends Activity {
 		L.openLibs();
 
 		try {
-			L.pushJavaObject(this);
-			L.setGlobal("activity");
-
 			JavaFunction print = new JavaFunction(L) {
 				@Override
 				public int execute() throws LuaException {
