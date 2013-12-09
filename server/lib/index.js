@@ -2,7 +2,10 @@ var express = require('express'),
     sharejs = require('share').server;
 
 var server = express();
-var options = {db: {type: 'redis'}};
+var options = {
+    db: {type: 'redis'},
+    browserChannel: {cors: '*'}
+};
 
 server.use(express.static(__dirname + '/..'));
 

@@ -2,6 +2,7 @@ package sk.kottman.androlua;
 
 import java.io.*;
 
+import android.os.Build;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
@@ -15,7 +16,6 @@ import android.app.Activity;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import sk.kottman.androlua.functions.PrintFunction;
@@ -47,6 +47,13 @@ public class MainAcivity extends Activity {
 
         codeWebView = (WebView) findViewById(R.id.codeWebView);
         bridge = new CommunicationBridge(codeWebView, "file:///android_asset/index.html");
+        // Strip out for prod!
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            codeWebView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+        }
 
 		status = (TextView) findViewById(R.id.statusText);
 		status.setMovementMethod(ScrollingMovementMethod.getInstance());
