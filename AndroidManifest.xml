@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest android:versionCode="1" android:versionName="1.0" package="sk.kottman.androlua" xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest android:versionCode="1" android:versionName="1.0" package="in.yuvi.ruleone" xmlns:android="http://schemas.android.com/apk/res/android">
   <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="19" />
 
     <supports-screens android:smallScreens="false"
@@ -17,7 +17,7 @@
   <application android:icon="@drawable/icon" android:label="@string/app_name"
                android:theme="@style/AppTheme"
           >
-    <activity android:label="@string/app_name" android:name=".MainAcivity">
+    <activity android:label="@string/app_name" android:name="in.yuvi.ruleone.MainAcivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>

@@ -1,4 +1,4 @@
-package sk.kottman.androlua;
+package in.yuvi.ruleone;
 
 import java.io.*;
 
@@ -18,7 +18,7 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 import android.widget.Toast;
-import sk.kottman.androlua.functions.PrintFunction;
+import in.yuvi.ruleone.functions.PrintFunction;
 
 public class MainAcivity extends Activity {
     private WebView codeWebView;

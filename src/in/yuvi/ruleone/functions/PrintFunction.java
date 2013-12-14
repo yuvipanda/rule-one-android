@@ -1,4 +1,4 @@
-package sk.kottman.androlua.functions;
+package in.yuvi.ruleone.functions;
 
 import org.keplerproject.luajava.JavaFunction;
 import org.keplerproject.luajava.LuaException;

@@ -1,4 +1,4 @@
-package sk.kottman.androlua;
+package in.yuvi.ruleone;
 
 import android.util.Log;
 import android.webkit.*;
